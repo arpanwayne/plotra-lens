@@ -292,7 +292,7 @@ function Showcase() {
 /* ---------------------------- FEATURED LISTINGS --------------------------- */
 
 function FeaturedListings() {
-  const feature = listings[0];
+  const feature = listings[0]!;
   return (
     <section id="listings" className="bg-background px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-7xl">
@@ -308,16 +308,16 @@ function FeaturedListings() {
             <PropertyCard listing={feature} ratio="aspect-[16/10]" />
           </div>
           <div className="md:col-span-2">
-            <PropertyCard listing={listings[1]} ratio="aspect-[4/5]" />
+            <PropertyCard listing={listings[1]!} ratio="aspect-[4/5]" />
           </div>
           <div className="md:col-span-2">
-            <PropertyCard listing={listings[2]} ratio="aspect-[4/5]" />
+            <PropertyCard listing={listings[2]!} ratio="aspect-[4/5]" />
           </div>
           <div className="md:col-span-2">
-            <PropertyCard listing={listings[3]} ratio="aspect-[4/5]" />
+            <PropertyCard listing={listings[3]!} ratio="aspect-[4/5]" />
           </div>
           <div className="md:col-span-2">
-            <PropertyCard listing={listings[5]} ratio="aspect-[4/5]" />
+            <PropertyCard listing={listings[5]!} ratio="aspect-[4/5]" />
           </div>
         </div>
       </div>
@@ -403,7 +403,7 @@ function SatelliteStory() {
             ))}
           </ul>
           <Button asChild variant="ink" size="lg" className="mt-9">
-            <Link to="/property/$id" params={{ id: listings[0].id }}>
+            <Link to="/property/$id" params={{ id: listings[0]!.id }}>
               See a live listing <ArrowUpRight />
             </Link>
           </Button>
