@@ -1,3 +1,4 @@
+import plotraIcon from "@/assets/plotra-icon.png";
 import { cn } from "@/lib/utils";
 
 export function PlotraLogo({
@@ -15,10 +16,7 @@ export function PlotraLogo({
         className,
       )}
     >
-      <span className="relative inline-flex size-7 items-center justify-center rounded-[9px] bg-primary">
-        <span className="size-2.5 rounded-[3px] bg-primary-foreground" />
-        <span className="absolute -right-0.5 -top-0.5 size-2 rounded-full bg-accent" />
-      </span>
+      <img src={plotraIcon} alt="" aria-hidden className="size-8 shrink-0 object-contain" />
       Plotra
     </span>
   );

@@ -3,26 +3,35 @@ import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AuthField, AuthShell } from "@/components/plotra/auth-shell";
+import { ApiError, forgotPassword, resetPassword } from "@/lib/api";
 
 export const Route = createFileRoute("/forgot-password")({
   head: () => ({
     meta: [
       { title: "Reset your password — Plotra" },
-      { name: "description", content: "Request a password reset link for your Plotra dealer account." },
+      {
+        name: "description",
+        content: "Request a password reset link for your Plotra dealer account.",
+      },
       { property: "og:title", content: "Reset your password — Plotra" },
       { property: "og:description", content: "Two-step password recovery for Plotra dealers." },
     ],
   }),
   component: ForgotPasswordPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    token: typeof search["token"] === "string" ? (search["token"] as string) : undefined,
+  }),
 });
 
 type Stage = "request" | "sent" | "reset" | "done";
 
 function ForgotPasswordPage() {
-  const [stage, setStage] = useState<Stage>("request");
+  const { token: tokenFromLink } = Route.useSearch();
+  const [stage, setStage] = useState<Stage>(tokenFromLink ? "reset" : "request");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     <AuthShell
@@ -41,14 +50,31 @@ function ForgotPasswordPage() {
       {stage === "request" ? (
         <form
           className="space-y-5"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            setStage("sent");
+            const form = new FormData(e.currentTarget);
+            const email = String(form.get("email") ?? "");
+            setSubmitting(true);
+            try {
+              await forgotPassword(email);
+            } catch {
+              // The endpoint intentionally responds the same way whether or
+              // not the account exists, so we still move to "sent" here.
+            } finally {
+              setSubmitting(false);
+              setStage("sent");
+            }
           }}
         >
-          <AuthField label="Email" type="email" required placeholder="you@business.in" />
-          <Button type="submit" variant="hero" size="lg" className="w-full">
-            Send reset link <ArrowRight />
+          <AuthField
+            name="email"
+            label="Email"
+            type="email"
+            required
+            placeholder="you@business.in"
+          />
+          <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
+            {submitting ? "Sending…" : "Send reset link"} <ArrowRight />
           </Button>
         </form>
       ) : null}
@@ -56,23 +82,33 @@ function ForgotPasswordPage() {
       {stage === "sent" ? (
         <div className="space-y-5">
           <p className="rounded-xl border border-accent/30 bg-accent/10 p-4 text-sm text-ink-foreground/85">
-            If an account exists, a password reset link has been sent.
+            If an account exists, a password reset link has been sent. Open it to continue.
           </p>
-          <Button variant="glass" size="lg" className="w-full" onClick={() => setStage("reset")}>
-            I have the link — continue
-          </Button>
         </div>
       ) : null}
 
       {stage === "reset" ? (
         <form
           className="space-y-5"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             if (password.length < 8) return setError("Password must be at least 8 characters.");
             if (password !== confirm) return setError("Passwords do not match.");
+            if (!tokenFromLink)
+              return setError("This reset link is missing its token. Request a new one.");
+
             setError("");
-            setStage("done");
+            setSubmitting(true);
+            try {
+              await resetPassword(tokenFromLink, password);
+              setStage("done");
+            } catch (err) {
+              const message =
+                err instanceof ApiError ? err.message : "Could not reset your password. Try again.";
+              setError(message);
+            } finally {
+              setSubmitting(false);
+            }
           }}
         >
           <AuthField
@@ -90,8 +126,8 @@ function ForgotPasswordPage() {
             required
           />
           {error ? <p className="text-xs font-medium text-destructive">{error}</p> : null}
-          <Button type="submit" variant="hero" size="lg" className="w-full">
-            Update password <ArrowRight />
+          <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
+            {submitting ? "Updating…" : "Update password"} <ArrowRight />
           </Button>
         </form>
       ) : null}

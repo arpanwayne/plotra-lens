@@ -1,9 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { AuthField, AuthShell } from "@/components/plotra/auth-shell";
+import { ApiError, login, saveSession } from "@/lib/api";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <AuthShell
@@ -35,23 +37,44 @@ function LoginPage() {
     >
       <form
         className="space-y-5"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
+          const form = new FormData(e.currentTarget);
+          const email = String(form.get("email") ?? "");
+          const password = String(form.get("password") ?? "");
+
           setLoading(true);
-          setTimeout(() => {
+          try {
+            const { token, dealer } = await login(email, password);
+            saveSession(token, dealer);
+            toast.success("Signed in", {
+              description: `Welcome back, ${dealer.businessName}.`,
+            });
+            navigate({ to: "/" });
+          } catch (err) {
+            const message =
+              err instanceof ApiError ? err.message : "Could not reach Plotra. Try again.";
+            toast.error("Sign in failed", { description: message });
+          } finally {
             setLoading(false);
-            toast.success("Signed in", { description: "Opening your dashboard." });
-          }, 700);
+          }
         }}
       >
-        <AuthField label="Email" type="email" required placeholder="you@business.in" />
-        <AuthField label="Password" type="password" required placeholder="••••••••" />
+        <AuthField name="email" label="Email" type="email" required placeholder="you@business.in" />
+        <AuthField
+          name="password"
+          label="Password"
+          type="password"
+          required
+          placeholder="••••••••"
+        />
         <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
           {loading ? "Signing in…" : "Sign In"} <ArrowRight />
         </Button>
         <div className="text-center">
           <Link
             to="/forgot-password"
+            search={{ token: undefined }}
             className="text-xs font-medium text-ink-foreground/60 transition-colors hover:text-primary"
           >
             Forgot password?

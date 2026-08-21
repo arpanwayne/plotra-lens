@@ -11,8 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as LegalRouteImport } from './routes/legal'
+import { Route as ListingsRouteImport } from './routes/listings'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as RequestAccessRouteImport } from './routes/request-access'
+import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as PropertyIdRouteImport } from './routes/property.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -25,14 +30,39 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ListingsRoute = ListingsRouteImport.update({
+  id: '/listings',
+  path: '/listings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RequestAccessRoute = RequestAccessRouteImport.update({
   id: '/request-access',
   path: '/request-access',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShowcaseRoute = ShowcaseRouteImport.update({
+  id: '/showcase',
+  path: '/showcase',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PropertyIdRoute = PropertyIdRouteImport.update({
@@ -44,45 +74,89 @@ const PropertyIdRoute = PropertyIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/legal': typeof LegalRoute
+  '/listings': typeof ListingsRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/request-access': typeof RequestAccessRoute
+  '/showcase': typeof ShowcaseRoute
   '/property/$id': typeof PropertyIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/legal': typeof LegalRoute
+  '/listings': typeof ListingsRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/request-access': typeof RequestAccessRoute
+  '/showcase': typeof ShowcaseRoute
   '/property/$id': typeof PropertyIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/legal': typeof LegalRoute
+  '/listings': typeof ListingsRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/request-access': typeof RequestAccessRoute
+  '/showcase': typeof ShowcaseRoute
   '/property/$id': typeof PropertyIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/forgot-password' | '/login' | '/request-access' | '/property/$id'
+    | '/'
+    | '/forgot-password'
+    | '/how-it-works'
+    | '/legal'
+    | '/listings'
+    | '/login'
+    | '/pricing'
+    | '/request-access'
+    | '/showcase'
+    | '/property/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forgot-password' | '/login' | '/request-access' | '/property/$id'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/how-it-works'
+    | '/legal'
+    | '/listings'
+    | '/login'
+    | '/pricing'
+    | '/request-access'
+    | '/showcase'
+    | '/property/$id'
   id:
     | '__root__'
     | '/'
     | '/forgot-password'
+    | '/how-it-works'
+    | '/legal'
+    | '/listings'
     | '/login'
+    | '/pricing'
     | '/request-access'
+    | '/showcase'
     | '/property/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  HowItWorksRoute: typeof HowItWorksRoute
+  LegalRoute: typeof LegalRoute
+  ListingsRoute: typeof ListingsRoute
   LoginRoute: typeof LoginRoute
+  PricingRoute: typeof PricingRoute
   RequestAccessRoute: typeof RequestAccessRoute
+  ShowcaseRoute: typeof ShowcaseRoute
   PropertyIdRoute: typeof PropertyIdRoute
 }
 
@@ -102,6 +176,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/listings': {
+      id: '/listings'
+      path: '/listings'
+      fullPath: '/listings'
+      preLoaderRoute: typeof ListingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -109,11 +204,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/request-access': {
       id: '/request-access'
       path: '/request-access'
       fullPath: '/request-access'
       preLoaderRoute: typeof RequestAccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/showcase': {
+      id: '/showcase'
+      path: '/showcase'
+      fullPath: '/showcase'
+      preLoaderRoute: typeof ShowcaseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/property/$id': {
@@ -129,8 +238,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  HowItWorksRoute: HowItWorksRoute,
+  LegalRoute: LegalRoute,
+  ListingsRoute: ListingsRoute,
   LoginRoute: LoginRoute,
+  PricingRoute: PricingRoute,
   RequestAccessRoute: RequestAccessRoute,
+  ShowcaseRoute: ShowcaseRoute,
   PropertyIdRoute: PropertyIdRoute,
 }
 export const routeTree = rootRouteImport

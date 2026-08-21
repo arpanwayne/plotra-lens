@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PlotraLogo } from "@/components/plotra/logo";
 import { media } from "@/lib/plotra-data";
 import { Reveal, useParallax } from "@/lib/motion";
+import { ApiError, submitAccessRequest } from "@/lib/api";
 
 export const Route = createFileRoute("/request-access")({
   head: () => ({
@@ -12,10 +14,14 @@ export const Route = createFileRoute("/request-access")({
       { title: "Request access — Plotra for dealers" },
       {
         name: "description",
-        content: "Tell us about your property business and we'll set up your Plotra dealer account.",
+        content:
+          "Tell us about your property business and we'll set up your Plotra dealer account.",
       },
       { property: "og:title", content: "Request access — Plotra" },
-      { property: "og:description", content: "Invite-only onboarding for Punjab property dealers." },
+      {
+        property: "og:description",
+        content: "Invite-only onboarding for Punjab property dealers.",
+      },
     ],
   }),
   component: RequestAccessPage,
@@ -23,6 +29,8 @@ export const Route = createFileRoute("/request-access")({
 
 function RequestAccessPage() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const bgRef = useParallax<HTMLImageElement>(0.1);
 
   return (
@@ -71,25 +79,76 @@ function RequestAccessPage() {
               </p>
               <form
                 className="mt-8 space-y-4"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  setSent(true);
+                  const form = new FormData(e.currentTarget);
+                  setSubmitting(true);
+                  setError("");
+                  try {
+                    await submitAccessRequest({
+                      businessName: String(form.get("businessName") ?? ""),
+                      contactName: String(form.get("contactName") ?? ""),
+                      email: String(form.get("email") ?? ""),
+                      phone: String(form.get("phone") ?? ""),
+                      message: String(form.get("message") ?? "") || undefined,
+                    });
+                    setSent(true);
+                  } catch (err) {
+                    const message =
+                      err instanceof ApiError
+                        ? err.message
+                        : "Could not submit your request. Try again.";
+                    setError(message);
+                    toast.error("Request not submitted", { description: message });
+                  } finally {
+                    setSubmitting(false);
+                  }
                 }}
               >
-                <Field label="Business name" required placeholder="Sandhu Property Consultants" />
-                <Field label="Contact name" required placeholder="Jaskaran Sandhu" />
-                <Field label="Email" type="email" required placeholder="you@business.in" />
-                <Field label="Phone" type="tel" required placeholder="+91 98140 00000" />
+                <Field
+                  name="businessName"
+                  label="Business name"
+                  required
+                  placeholder="Sandhu Property Consultants"
+                />
+                <Field
+                  name="contactName"
+                  label="Contact name"
+                  required
+                  placeholder="Jaskaran Sandhu"
+                />
+                <Field
+                  name="email"
+                  label="Email"
+                  type="email"
+                  required
+                  placeholder="you@business.in"
+                />
+                <Field
+                  name="phone"
+                  label="Phone"
+                  type="tel"
+                  required
+                  placeholder="+91 98140 00000"
+                />
                 <label className="block">
                   <span className="label-eyebrow text-muted-foreground">Message (optional)</span>
                   <textarea
+                    name="message"
                     rows={3}
                     placeholder="Cities you work in, roughly how many listings you handle…"
                     className="mt-2 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm outline-none transition-all duration-500 focus:border-primary focus:shadow-[var(--shadow-glow)]"
                   />
                 </label>
-                <Button type="submit" variant="hero" size="lg" className="w-full">
-                  Submit Request <ArrowRight />
+                {error ? <p className="text-xs font-medium text-destructive">{error}</p> : null}
+                <Button
+                  type="submit"
+                  variant="hero"
+                  size="lg"
+                  className="w-full"
+                  disabled={submitting}
+                >
+                  {submitting ? "Submitting…" : "Submit Request"} <ArrowRight />
                 </Button>
               </form>
             </>
@@ -100,7 +159,10 @@ function RequestAccessPage() {
   );
 }
 
-function Field({ label, ...props }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
+function Field({
+  label,
+  ...props
+}: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className="block">
       <span className="label-eyebrow text-muted-foreground">{label}</span>

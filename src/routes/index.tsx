@@ -12,11 +12,13 @@ import { Button } from "@/components/ui/button";
 import { SiteNav } from "@/components/plotra/site-nav";
 import { SiteFooter } from "@/components/plotra/site-footer";
 import { PhoneMockup } from "@/components/plotra/phone-mockup";
-import { PropertyCard } from "@/components/plotra/property-card";
-import { ReelStrip } from "@/components/plotra/reel-strip";
 import { FloatingMedia, MetaPill, PopImage } from "@/components/plotra/media";
+import { HowItWorksSection } from "@/components/plotra/sections/how-it-works-section";
+import { ShowcaseSection } from "@/components/plotra/sections/showcase-section";
+import { ListingsSection } from "@/components/plotra/sections/listings-section";
+import { PricingSection } from "@/components/plotra/sections/pricing-section";
 import { Reveal, useCountUp, useMagnetic, useParallax } from "@/lib/motion";
-import { listings, media, plans } from "@/lib/plotra-data";
+import { listings, media } from "@/lib/plotra-data";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -45,12 +47,12 @@ function Landing() {
       <SiteNav />
       <Hero />
       <Bridge />
-      <HowItWorks />
-      <Showcase />
-      <FeaturedListings />
+      <HowItWorksSection />
+      <ShowcaseSection />
+      <ListingsSection />
       <SatelliteStory />
       <Trust />
-      <Pricing />
+      <PricingSection />
       <FinalCta />
       <SiteFooter />
     </main>
@@ -94,9 +96,8 @@ function Hero() {
 
           <Reveal delay={420}>
             <p className="mt-6 max-w-lg text-base leading-relaxed text-ink-foreground/75 sm:text-lg">
-              Plotra turns a simple WhatsApp message into a professional, shareable property
-              listing — with satellite imagery, plot boundary and a live page buyers can open
-              instantly.
+              Plotra turns a simple WhatsApp message into a professional, shareable property listing
+              — with satellite imagery, plot boundary and a live page buyers can open instantly.
             </p>
           </Reveal>
 
@@ -122,7 +123,11 @@ function Hero() {
           </Reveal>
 
           {/* floating hero property card */}
-          <Reveal variant="pop" delay={700} className="mt-12 max-w-sm lg:absolute lg:bottom-24 lg:mt-0">
+          <Reveal
+            variant="pop"
+            delay={700}
+            className="mt-12 max-w-sm lg:absolute lg:bottom-24 lg:mt-0"
+          >
             <div className="glass float-slow rounded-3xl p-3">
               <div className="media-zoom overflow-hidden rounded-2xl">
                 <img
@@ -137,8 +142,8 @@ function Hero() {
                   <p className="label-eyebrow text-accent">Residential Plot</p>
                   <p className="font-display text-2xl font-bold text-ink-foreground">₹1.25 Cr</p>
                   <p className="mt-1 flex items-center gap-1.5 text-xs text-ink-foreground/70">
-                    <MapPin className="size-3.5 text-primary pulse-soft" /> Ludhiana, Punjab ·
-                    2,000 sq.ft
+                    <MapPin className="size-3.5 text-primary pulse-soft" /> Ludhiana, Punjab · 2,000
+                    sq.ft
                   </p>
                 </div>
                 <span className="rounded-full bg-accent/15 px-2.5 py-1 text-[10px] font-semibold text-accent">
@@ -198,132 +203,8 @@ function Bridge() {
 
 /* ------------------------------ HOW IT WORKS ------------------------------ */
 
-const steps = [
-  {
-    n: "01",
-    title: "Send the Property",
-    body: "Text plot size, location and price to your Plotra WhatsApp number — the way you already message your buyers.",
-    src: media.streetView,
-  },
-  {
-    n: "02",
-    title: "Plotra Understands It",
-    body: "AI extracts location, price, plot size and property type, then pulls satellite imagery for the parcel.",
-    src: media.satellitePlot,
-  },
-  {
-    n: "03",
-    title: "Listing Goes Live",
-    body: "A professional property page is generated with photos, boundary, nearby landmarks and your business name.",
-    src: media.houseExterior,
-  },
-  {
-    n: "04",
-    title: "Share With Buyers",
-    body: "Forward one link. Every open, enquiry and callback request lands in your Plotra lead inbox.",
-    src: media.plotAerial,
-  },
-];
-
-function HowItWorks() {
-  return (
-    <section id="how-it-works" className="bg-lavender px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-7xl">
-        <Reveal>
-          <p className="label-eyebrow text-primary">How it works</p>
-          <h2 className="text-balance-tight mt-4 max-w-2xl font-display text-4xl font-bold text-ink sm:text-6xl">
-            One message in. A live listing out.
-          </h2>
-        </Reveal>
-
-        <div className="mt-16 grid gap-8 lg:grid-cols-4">
-          {steps.map((step, i) => (
-            <Reveal key={step.n} delay={i * 120} className="relative">
-              {i < steps.length - 1 ? (
-                <span className="absolute -right-4 top-[28%] hidden h-px w-8 bg-gradient-to-r from-primary to-accent lg:block" />
-              ) : null}
-              <div className="group">
-                <div className="media-zoom relative aspect-[9/16] overflow-hidden rounded-3xl shadow-[var(--shadow-lift)] lg:aspect-[3/4]">
-                  <img src={step.src} alt={step.title} loading="lazy" className="size-full object-cover" />
-                  <span className="veil absolute inset-0" />
-                  <span className="font-display absolute left-4 top-4 text-3xl font-bold text-ink-foreground/85">
-                    {step.n}
-                  </span>
-                  <span className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-accent/90 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-accent-foreground">
-                    Step live
-                  </span>
-                </div>
-                <h3 className="mt-5 font-display text-xl font-bold text-ink">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* -------------------------------- SHOWCASE -------------------------------- */
-
-function Showcase() {
-  return (
-    <section id="showcase" className="surface-ink overflow-hidden py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Reveal className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="label-eyebrow text-accent">Showcase reel</p>
-            <h2 className="text-balance-tight mt-4 max-w-xl font-display text-4xl font-bold text-ink-foreground sm:text-6xl">
-              Everything a dealer does in a day, in nine-by-sixteen.
-            </h2>
-          </div>
-          <p className="max-w-xs text-sm text-ink-foreground/60">
-            Drag sideways. Each reel is a real moment from a Plotra dealer's week.
-          </p>
-        </Reveal>
-      </div>
-      <div className="mt-14">
-        <ReelStrip />
-      </div>
-    </section>
-  );
-}
-
-/* ---------------------------- FEATURED LISTINGS --------------------------- */
-
-function FeaturedListings() {
-  const feature = listings[0]!;
-  return (
-    <section id="listings" className="bg-background px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-7xl">
-        <Reveal>
-          <p className="label-eyebrow text-primary">Featured listings</p>
-          <h2 className="text-balance-tight mt-4 max-w-2xl font-display text-4xl font-bold text-ink sm:text-6xl">
-            Pages buyers actually finish reading.
-          </h2>
-        </Reveal>
-
-        <div className="mt-14 grid gap-6 md:grid-cols-6">
-          <div className="md:col-span-4">
-            <PropertyCard listing={feature} ratio="aspect-[16/10]" />
-          </div>
-          <div className="md:col-span-2">
-            <PropertyCard listing={listings[1]!} ratio="aspect-[4/5]" />
-          </div>
-          <div className="md:col-span-2">
-            <PropertyCard listing={listings[2]!} ratio="aspect-[4/5]" />
-          </div>
-          <div className="md:col-span-2">
-            <PropertyCard listing={listings[3]!} ratio="aspect-[4/5]" />
-          </div>
-          <div className="md:col-span-2">
-            <PropertyCard listing={listings[5]!} ratio="aspect-[4/5]" />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+/* how-it-works, showcase and listings sections now live in
+   @/components/plotra/sections so the standalone nav pages can reuse them. */
 
 /* ---------------------------- SATELLITE STORY ----------------------------- */
 
@@ -359,7 +240,13 @@ function SatelliteStory() {
                     [69, 70],
                     [31, 72],
                   ].map(([x, y]) => (
-                    <circle key={`${x}-${y}`} cx={x} cy={y} r="1.1" fill="oklch(0.78 0.128 178.5)" />
+                    <circle
+                      key={`${x}-${y}`}
+                      cx={x}
+                      cy={y}
+                      r="1.1"
+                      fill="oklch(0.78 0.128 178.5)"
+                    />
                   ))}
                 </svg>
                 <MetaPill className="absolute left-4 top-4 text-accent">
@@ -442,7 +329,10 @@ function Trust() {
           </div>
         </div>
 
-        <Reveal variant="pop" className="media-zoom relative aspect-[4/3] overflow-hidden rounded-[2rem]">
+        <Reveal
+          variant="pop"
+          className="media-zoom relative aspect-[4/3] overflow-hidden rounded-[2rem]"
+        >
           <img
             ref={parallaxRef}
             src={media.nightNeighborhood}
@@ -483,74 +373,7 @@ function Stat({
   );
 }
 
-/* --------------------------------- PRICING -------------------------------- */
-
-function Pricing() {
-  return (
-    <section id="pricing" className="bg-background px-5 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-6xl">
-        <Reveal className="text-center">
-          <p className="label-eyebrow text-primary">Pricing</p>
-          <h2 className="text-balance-tight mt-4 font-display text-4xl font-bold text-ink sm:text-5xl">
-            Straightforward plans. No lock-in.
-          </h2>
-        </Reveal>
-
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {plans.map((plan, i) => (
-            <Reveal key={plan.name} delay={i * 110}>
-              <div
-                className={cn(
-                  "group lift relative flex h-full flex-col rounded-[1.75rem] border bg-card p-7",
-                  plan.recommended
-                    ? "border-primary/40 shadow-[var(--shadow-glow)]"
-                    : "border-border hover:border-primary/30",
-                )}
-              >
-                {plan.recommended ? (
-                  <span className="absolute -top-3 left-7 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary-foreground">
-                    Recommended
-                  </span>
-                ) : null}
-                <h3 className="font-display text-2xl font-bold text-ink">{plan.name}</h3>
-                <p className="mt-4 font-display text-4xl font-bold text-ink">
-                  {plan.price}
-                  <span className="ml-1 text-sm font-medium text-muted-foreground">
-                    {plan.period}
-                  </span>
-                </p>
-                <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                  {plan.limit}
-                </p>
-                <ul className="mt-7 space-y-3">
-                  {plan.features.map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-start gap-2.5 text-sm text-foreground opacity-80 transition-opacity duration-500 group-hover:opacity-100"
-                    >
-                      <Check className="mt-0.5 size-4 shrink-0 text-accent" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Button
-                  asChild
-                  variant={plan.recommended ? "hero" : "outline"}
-                  size="lg"
-                  className="mt-8 w-full"
-                >
-                  <Link to="/request-access">
-                    Request Access <ArrowRight />
-                  </Link>
-                </Button>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+/* Pricing section now lives in @/components/plotra/sections/pricing-section */
 
 /* -------------------------------- FINAL CTA ------------------------------- */
 

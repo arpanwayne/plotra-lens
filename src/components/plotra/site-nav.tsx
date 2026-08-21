@@ -6,10 +6,10 @@ import { PlotraLogo } from "@/components/plotra/logo";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { label: "How it works", to: "/", hash: "how-it-works" },
-  { label: "Showcase", to: "/", hash: "showcase" },
-  { label: "Listings", to: "/", hash: "listings" },
-  { label: "Pricing", to: "/", hash: "pricing" },
+  { label: "How it works", to: "/how-it-works" },
+  { label: "Showcase", to: "/showcase" },
+  { label: "Listings", to: "/listings" },
+  { label: "Pricing", to: "/pricing" },
 ];
 
 export function SiteNav() {
@@ -37,9 +37,9 @@ export function SiteNav() {
 
         <div className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
-            <a
-              key={l.hash}
-              href={`#${l.hash}`}
+            <Link
+              key={l.to}
+              to={l.to}
               className={cn(
                 "rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-300",
                 scrolled
@@ -48,7 +48,7 @@ export function SiteNav() {
               )}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -59,7 +59,9 @@ export function SiteNav() {
             size="sm"
             className={cn(
               "hidden sm:inline-flex",
-              scrolled ? "text-ink" : "text-ink-foreground hover:bg-white/15 hover:text-ink-foreground",
+              scrolled
+                ? "text-ink"
+                : "text-ink-foreground hover:bg-white/15 hover:text-ink-foreground",
             )}
           >
             <Link to="/login">Sign in</Link>
@@ -84,14 +86,14 @@ export function SiteNav() {
       {open ? (
         <div className="glass-light mx-auto mt-2 max-w-7xl rounded-3xl p-3 md:hidden">
           {links.map((l) => (
-            <a
-              key={l.hash}
-              href={`#${l.hash}`}
+            <Link
+              key={l.to}
+              to={l.to}
               onClick={() => setOpen(false)}
               className="block rounded-2xl px-4 py-3 text-sm font-medium text-ink"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
           <Link
             to="/login"
