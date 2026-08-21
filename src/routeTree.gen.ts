@@ -13,11 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as LegalRouteImport } from './routes/legal'
-import { Route as ListingsRouteImport } from './routes/listings'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as RequestAccessRouteImport } from './routes/request-access'
-import { Route as ShowcaseRouteImport } from './routes/showcase'
+import { Route as TeamRouteImport } from './routes/team'
 import { Route as PropertyIdRouteImport } from './routes/property.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -40,11 +39,6 @@ const LegalRoute = LegalRouteImport.update({
   path: '/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ListingsRoute = ListingsRouteImport.update({
-  id: '/listings',
-  path: '/listings',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -60,9 +54,9 @@ const RequestAccessRoute = RequestAccessRouteImport.update({
   path: '/request-access',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ShowcaseRoute = ShowcaseRouteImport.update({
-  id: '/showcase',
-  path: '/showcase',
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PropertyIdRoute = PropertyIdRouteImport.update({
@@ -76,11 +70,10 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/how-it-works': typeof HowItWorksRoute
   '/legal': typeof LegalRoute
-  '/listings': typeof ListingsRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/request-access': typeof RequestAccessRoute
-  '/showcase': typeof ShowcaseRoute
+  '/team': typeof TeamRoute
   '/property/$id': typeof PropertyIdRoute
 }
 export interface FileRoutesByTo {
@@ -88,11 +81,10 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/how-it-works': typeof HowItWorksRoute
   '/legal': typeof LegalRoute
-  '/listings': typeof ListingsRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/request-access': typeof RequestAccessRoute
-  '/showcase': typeof ShowcaseRoute
+  '/team': typeof TeamRoute
   '/property/$id': typeof PropertyIdRoute
 }
 export interface FileRoutesById {
@@ -101,11 +93,10 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/how-it-works': typeof HowItWorksRoute
   '/legal': typeof LegalRoute
-  '/listings': typeof ListingsRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/request-access': typeof RequestAccessRoute
-  '/showcase': typeof ShowcaseRoute
+  '/team': typeof TeamRoute
   '/property/$id': typeof PropertyIdRoute
 }
 export interface FileRouteTypes {
@@ -115,11 +106,10 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/how-it-works'
     | '/legal'
-    | '/listings'
     | '/login'
     | '/pricing'
     | '/request-access'
-    | '/showcase'
+    | '/team'
     | '/property/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -127,11 +117,10 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/how-it-works'
     | '/legal'
-    | '/listings'
     | '/login'
     | '/pricing'
     | '/request-access'
-    | '/showcase'
+    | '/team'
     | '/property/$id'
   id:
     | '__root__'
@@ -139,11 +128,10 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/how-it-works'
     | '/legal'
-    | '/listings'
     | '/login'
     | '/pricing'
     | '/request-access'
-    | '/showcase'
+    | '/team'
     | '/property/$id'
   fileRoutesById: FileRoutesById
 }
@@ -152,11 +140,10 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   HowItWorksRoute: typeof HowItWorksRoute
   LegalRoute: typeof LegalRoute
-  ListingsRoute: typeof ListingsRoute
   LoginRoute: typeof LoginRoute
   PricingRoute: typeof PricingRoute
   RequestAccessRoute: typeof RequestAccessRoute
-  ShowcaseRoute: typeof ShowcaseRoute
+  TeamRoute: typeof TeamRoute
   PropertyIdRoute: typeof PropertyIdRoute
 }
 
@@ -190,13 +177,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/listings': {
-      id: '/listings'
-      path: '/listings'
-      fullPath: '/listings'
-      preLoaderRoute: typeof ListingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -218,11 +198,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestAccessRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/showcase': {
-      id: '/showcase'
-      path: '/showcase'
-      fullPath: '/showcase'
-      preLoaderRoute: typeof ShowcaseRouteImport
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/property/$id': {
@@ -240,11 +220,10 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   HowItWorksRoute: HowItWorksRoute,
   LegalRoute: LegalRoute,
-  ListingsRoute: ListingsRoute,
   LoginRoute: LoginRoute,
   PricingRoute: PricingRoute,
   RequestAccessRoute: RequestAccessRoute,
-  ShowcaseRoute: ShowcaseRoute,
+  TeamRoute: TeamRoute,
   PropertyIdRoute: PropertyIdRoute,
 }
 export const routeTree = rootRouteImport

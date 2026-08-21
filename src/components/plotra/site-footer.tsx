@@ -7,8 +7,8 @@ const columns = [
     title: "Product",
     links: [
       { label: "How it works", href: "/how-it-works" },
-      { label: "Showcase", href: "/showcase" },
-      { label: "Featured listings", href: "/listings" },
+      { label: "Showcase reel", href: "/#showcase" },
+      { label: "Featured listings", href: "/#listings" },
       { label: "Pricing", href: "/pricing" },
       { label: "Dealer dashboard", href: "/dashboard" },
       { label: "Rent vs Buy calculator", href: "/dashboard/calculator" },
@@ -17,6 +17,7 @@ const columns = [
   {
     title: "Company",
     links: [
+      { label: "Team", href: "/team" },
       { label: "Request access", href: "/request-access" },
       { label: "Sign in", href: "/login" },
       { label: "Super admin", href: "/admin" },
@@ -37,7 +38,7 @@ const columns = [
     links: [
       { label: "hello@plotra.in", href: "mailto:hello@plotra.in" },
       { label: "+91 98140 00000", href: "tel:+919814000000" },
-      { label: "Ludhiana, Punjab", href: "/listings" },
+      { label: "Ludhiana, Punjab", href: "/#listings" },
     ],
   },
 ];
