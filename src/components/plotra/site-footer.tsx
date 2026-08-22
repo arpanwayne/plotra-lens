@@ -37,7 +37,7 @@ const columns = [
     title: "Contact",
     links: [
       { label: "hello@plotra.in", href: "mailto:hello@plotra.in" },
-      { label: "+91 98140 00000", href: "tel:+919814000000" },
+      { label: "+91 83600 98455", href: "tel:+918360098455" },
       { label: "Ludhiana, Punjab", href: "/#listings" },
     ],
   },

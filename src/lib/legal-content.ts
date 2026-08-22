@@ -235,7 +235,7 @@ export const legalSections: LegalSection[] = [
 <h2 id="general-support"><strong>7.1 General Support</strong></h2>
 <ul>
 <li><p>Email: [<mark>support@wayneesolutions.com]</mark></p></li>
-<li><p>Phone: <mark>[+91-XXXXXXXXXX</mark>]</p></li>
+<li><p>Phone: +91 83600 98455</p></li>
 <li><p>Hours: [<mark>Mon–Sat, 10 AM – 7 PM IST</mark>]</p></li>
 </ul>
 <h2 id="grievance-officer"><strong>7.2 Grievance Officer</strong></h2>
